@@ -14,8 +14,14 @@ public class IniParser {
         }
     }
 
-    public static Scanner scan(String name) throws FileNotFoundException {
-        Scanner scan = new Scanner(new File(name));
+    public static Scanner scan(String name) throws Exception {
+        Scanner scan = null;
+        try {
+            scan = new Scanner(new File(name));
+            return scan;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error: such file does not exist.");
+        }
         return scan;
     }
 
@@ -49,7 +55,12 @@ public class IniParser {
     }
 
     public static String get(ArrayList<Category> categories, String categ, String type) {
-        int numberCateg = categories.indexOf(categ) + 1;
+        int numberCateg = 0;
+        int size = categories.size();
+        for (int k = 0; k < size; k++)
+            if (categories.get(k).name.equals(categ))
+                numberCateg = categories.indexOf(categories.get(k));
+            
         int numberType = 0;
         for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
             String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
@@ -61,33 +72,19 @@ public class IniParser {
         String value = String.valueOf(categories.get(numberCateg).pairs.get(numberType));
         value = value.replace("{", "");
         value = value.replace("}", "");
-        value = value.replace("=", "");
+        value = value.replace("=", " ");
         value = value.replace(type, "");
       return value;
     };
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws Exception {
+        if (!args[0].contains(".ini")) throw new Exception("Error: wrong file format.");
         Scanner file = scan(args[0]);
         ArrayList<Category> categories = parser(file);
         System.out.println("Name category and type which value you want to know.");
         Scanner in = new Scanner(System.in);
-        String categorie = in.nextLine();
+        String categ = in.nextLine();
         String type = in.nextLine();
-        System.out.println(get(categories, categorie, type));
-//        PrintWriter out = new PrintWriter(new FileOutputStream("out.txt"));
-//        for (int i = 0; i < categories.size(); i++) {
-//            Category current = categories.get(i);
-//            out.println(current.name);
-//            for (int k = 0; k <  current.pairs.size(); k++) {
-//                String what = String.valueOf(current.pairs.get(k));
-//                what = what.replace("{", "");
-//                what = what.replace("}", "");
-//                out.println(what);
-//            }
-//        }
-//        out.println(get(categories, "fucking fuck", "fucky"));
-
-
-//        out.close();
+        System.out.println(get(categories, categ, type));
     }
 }
