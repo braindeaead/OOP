@@ -48,9 +48,22 @@ public class IniParser {
         return categories;
     }
 
-    public static Category get(String categ, String type) {
-        
-      return section;
+    public static String get(ArrayList<Category> categories, String categ, String type) {
+        int numberCateg = categories.indexOf(categ) + 1;
+        int numberType = 0;
+        for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
+            String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
+            if (current.contains(type)) {
+                numberType = i;
+                break;
+            }
+        }
+        String value = String.valueOf(categories.get(numberCateg).pairs.get(numberType));
+        value = value.replace("{", "");
+        value = value.replace("}", "");
+        value = value.replace("=", "");
+        value = value.replace(type, "");
+      return value;
     };
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -67,6 +80,8 @@ public class IniParser {
                 out.println(what);
             }
         }
+        out.println(get(categories, "fucking fuck", "fucky"));
+
 
         out.close();
     }
