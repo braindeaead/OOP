@@ -69,20 +69,25 @@ public class IniParser {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner file = scan(args[0]);
         ArrayList<Category> categories = parser(file);
-        PrintWriter out = new PrintWriter(new FileOutputStream("out.txt"));
-        for (int i = 0; i < categories.size(); i++) {
-            Category current = categories.get(i);
-            out.println(current.name);
-            for (int k = 0; k <  current.pairs.size(); k++) {
-                String what = String.valueOf(current.pairs.get(k));
-                what = what.replace("{", "");
-                what = what.replace("}", "");
-                out.println(what);
-            }
-        }
-        out.println(get(categories, "fucking fuck", "fucky"));
+        System.out.println("Name category and type which value you want to know.");
+        Scanner in = new Scanner(System.in);
+        String categorie = in.nextLine();
+        String type = in.nextLine();
+        System.out.println(get(categories, categorie, type));
+//        PrintWriter out = new PrintWriter(new FileOutputStream("out.txt"));
+//        for (int i = 0; i < categories.size(); i++) {
+//            Category current = categories.get(i);
+//            out.println(current.name);
+//            for (int k = 0; k <  current.pairs.size(); k++) {
+//                String what = String.valueOf(current.pairs.get(k));
+//                what = what.replace("{", "");
+//                what = what.replace("}", "");
+//                out.println(what);
+//            }
+//        }
+//        out.println(get(categories, "fucking fuck", "fucky"));
 
 
-        out.close();
+//        out.close();
     }
 }
