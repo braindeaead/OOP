@@ -54,14 +54,15 @@ public class IniParser {
         return categories;
     }
 
-    public static String get(ArrayList<Category> categories, String categ, String type) {
-        int numberCateg = 0;
+    public static String get(ArrayList<Category> categories, String categ, String type) throws Exception {
+        int numberCateg = -1;
         int size = categories.size();
         for (int k = 0; k < size; k++)
             if (categories.get(k).name.equals(categ))
                 numberCateg = categories.indexOf(categories.get(k));
-            
-        int numberType = 0;
+
+        if (numberCateg == -1) throw new Exception("Error: such category does not exist");
+        int numberType = -1;
         for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
             String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
             if (current.contains(type)) {
@@ -69,6 +70,7 @@ public class IniParser {
                 break;
             }
         }
+        if (numberType == -1) throw new Exception("Error: such type does not exist in current category");
         String value = String.valueOf(categories.get(numberCateg).pairs.get(numberType));
         value = value.replace("{", "");
         value = value.replace("}", "");
