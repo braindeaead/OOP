@@ -1,5 +1,3 @@
-import javafx.animation.ScaleTransition;
-
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
@@ -25,6 +23,13 @@ public class IniParser {
         return scan;
     }
 
+    public static String replaceSev(char[] symbols, String line) {
+        for (char chars : symbols) {
+            line = line.replace(String.valueOf(chars), "");
+        }
+        return line;
+    }
+
     public static ArrayList<Category> parser(Scanner file) {
         ArrayList<Category> categories = new ArrayList<>();
         String current = file.nextLine();
@@ -32,12 +37,17 @@ public class IniParser {
             char[] characters = current.toCharArray();
                 if (characters[0] == '[') {
                     String name = new String(characters);
-                    name = name.replace("[", "");
-                    name = name.replace("]", "");
-                    Category currentCategory = new Category(name);
+                    name = replaceSev(new char[]{'[', ']'}, name);
+                    Category currentCategory;
+                    if (categories.contains(name)) {
+                        currentCategory = categories.get(categories.indexOf(name));
+                    }
+                    else {
+                        currentCategory = new Category(name);
+                    }
                     current = file.nextLine();
                     while (current.toCharArray()[0] != '[') {
-                        String[] now = current.split(" ");
+                        String[] now = current.split("\\s+");
                         currentCategory.pairs.add(new HashMap<>());
                         HashMap<String, String> map = new HashMap<>();
                         map.put(now[0], now[2]);
@@ -54,12 +64,12 @@ public class IniParser {
         return categories;
     }
 
-    public static String get(ArrayList<Category> categories, String categ, String type) throws Exception {
+    public static String get(ArrayList<Category> categories, String categ, String type) throws Exception { // make get() for different types
         int numberCateg = -1;
         int size = categories.size();
         for (int k = 0; k < size; k++)
             if (categories.get(k).name.equals(categ))
-                numberCateg = categories.indexOf(categories.get(k));
+                numberCateg = k;
 
         if (numberCateg == -1) throw new Exception("Error: such category does not exist");
         int numberType = -1;
@@ -70,13 +80,8 @@ public class IniParser {
                 break;
             }
         }
-        if (numberType == -1) throw new Exception("Error: such type does not exist in current category");
-        String value = String.valueOf(categories.get(numberCateg).pairs.get(numberType));
-        value = value.replace("{", "");
-        value = value.replace("}", "");
-        value = value.replace("=", " ");
-        value = value.replace(type, "");
-      return value;
+
+      return String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type));
     };
 
     public static void main(String[] args) throws Exception {
