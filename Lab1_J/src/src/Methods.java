@@ -1,4 +1,5 @@
 package src;
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.*;
 import java.util.*;
 
@@ -11,6 +12,7 @@ public class Methods {
             return scan;
         } catch (FileNotFoundException ex) {
             System.out.println("Error: such file does not exist.");
+            System.exit(1);
         }
         return scan;
     }
@@ -40,7 +42,7 @@ public class Methods {
         return requested;
     }
 
-    public static String getString(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception { // make get() for different types
+    public static String getString(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
         int numberCateg = -1;
         int size = categories.size();
         for (int k = 0; k < size; k++)
@@ -48,6 +50,7 @@ public class Methods {
                 numberCateg = k;
 
         if (numberCateg == -1) throw new Exception("Error: such category does not exist");
+
         int numberType = -1;
         for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
             String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
@@ -94,7 +97,7 @@ public class Methods {
                 break;
             }
         }
-        return Integer.parseInt(String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type)));
+            return Integer.parseInt(String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type)));
     }
 
     public static ArrayList<IniParser.Category> parser(Scanner file) {
