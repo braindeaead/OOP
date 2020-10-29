@@ -2,11 +2,11 @@ package src;
 import java.util.*;
 
 public class IniParser {
-    public static class Category {
-        public String name;
-        public ArrayList<HashMap<String, String>> pairs = new ArrayList<>();
+    static class Category {
+        String name;
+        ArrayList<HashMap<String, String>> pairs = new ArrayList<>();
 
-        public Category(String name) {
+        Category(String name) {
             this.name = name;
         }
 
@@ -19,7 +19,7 @@ public class IniParser {
         System.out.println("Name category and type which value you want to know. And a type of the value too.");
         Scanner in = new Scanner(System.in);
         String categ = in.nextLine();
-        String type = in.nextLine();
+        String type = in.nextLine(); // try catch with restarting
         switch (in.nextLine()) {
             case "string" :
                 System.out.println(Methods.getString(categories, categ, type));

@@ -1,30 +1,39 @@
 package src;
-import javax.xml.datatype.DatatypeConfigurationException;
 import java.io.*;
 import java.util.*;
 
-public class Methods {
+class Methods {
 
-    public static Scanner scan(String name) throws Exception {
+    static Scanner scan(String name) throws Exception {
         Scanner scan = null;
         try {
             scan = new Scanner(new File(name));
             return scan;
         } catch (FileNotFoundException ex) {
             System.out.println("Error: such file does not exist.");
-            System.exit(1);
+            System.exit(1); // better to exit in main()
         }
         return scan;
     }
 
-    public static String replaceSev(char[] symbols, String line) {
+    private static int categNumber(String categ, ArrayList<IniParser.Category> categories) throws Exception {
+        int numberCateg = -1;
+        for (int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).name.equals(categ)) {
+                numberCateg = i;
+            }
+        }
+        return numberCateg;
+    }
+
+    private static String replaceSev(char[] symbols, String line) {
         for (char chars : symbols) {
             line = line.replace(String.valueOf(chars), "");
         }
         return line;
     }
 
-    public static boolean categoryChecker(String name, ArrayList<IniParser.Category> categories) {
+    private static boolean categoryChecker(String name, ArrayList<IniParser.Category> categories) {
         for (int i = 0; i < categories.size(); i++)
             if (categories.get(i).name.equals(name))
                 return true;
@@ -32,7 +41,7 @@ public class Methods {
         return false;
     }
 
-    public static IniParser.Category getByName(String name, ArrayList<IniParser.Category> catergories) {
+    private static IniParser.Category getByName(String name, ArrayList<IniParser.Category> catergories) {
         IniParser.Category requested = null;
         for (int i = 0; i < catergories.size(); i++) {
             if (catergories.get(i).name.equals(name))
@@ -42,27 +51,19 @@ public class Methods {
         return requested;
     }
 
-    public static String getString(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
-        int numberCateg = -1;
-        int size = categories.size();
-        for (int k = 0; k < size; k++)
-            if (categories.get(k).name.equals(categ))
-                numberCateg = k;
-
-        if (numberCateg == -1) throw new Exception("Error: such category does not exist");
-
+    static String getString(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
         int numberType = -1;
-        for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
-            String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
+        for (int i = 0; i < categories.get(categNumber(categ, categories)).pairs.size(); i++) {
+            String current = String.valueOf(categories.get(categNumber(categ, categories)).pairs.get(i));
             if (current.contains(type)) {
                 numberType = i;
                 break;
             }
         }
-        return String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type));
+        return String.valueOf(categories.get(categNumber(categ, categories)).pairs.get(numberType).get(type));
     }
 
-    public static Double getDouble(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
+    static Double getDouble(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
         int numberCateg = -1;
         int size = categories.size();
         for (int k = 0; k < size; k++)
@@ -78,10 +79,15 @@ public class Methods {
                 break;
             }
         }
+        try { Double.parseDouble(categories.get(numberCateg).pairs.get(numberType).get(type)); }
+        catch (Exception e) {
+            System.out.println("Error: wrong type.");
+        }
+
         return Double.parseDouble(categories.get(numberCateg).pairs.get(numberType).get(type));
     }
 
-    public static Integer getInteger(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
+    static Integer getInteger(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
         int numberCateg = -1;
         int size = categories.size();
         for (int k = 0; k < size; k++)
@@ -100,7 +106,7 @@ public class Methods {
             return Integer.parseInt(String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type)));
     }
 
-    public static ArrayList<IniParser.Category> parser(Scanner file) {
+    static ArrayList<IniParser.Category> parser(Scanner file) {
         ArrayList<IniParser.Category> categories = new ArrayList<>();
         String current = file.nextLine();
         while (file.hasNextLine()) {
