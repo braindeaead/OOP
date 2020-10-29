@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Menu {
-    static void menu(ArrayList<Shops.Shop> shops, ArrayList<Shops.Product> prod) throws IOException {
+    static void menu(ArrayList<Shops.Shop> shops, ArrayList<Shops.Product> prod) {
         System.out.println("What do u want to do?");
         System.out.println("1. Create a shop.");
         System.out.println("2. Create a product.");
