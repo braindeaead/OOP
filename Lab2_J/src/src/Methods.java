@@ -26,7 +26,7 @@ class Methods {
         shops.get(shops.indexOf(shop)).catalog.add(new Shops.Products(prod, amount, price));
     }
 
-    static Shops.Products findProds(Shops.Shop shop, Shops.Product prod) {
+    private static Shops.Products findProds(Shops.Shop shop, Shops.Product prod) {
         Shops.Products requested = null;
         for (int i = 0; i < shop.catalog.size(); i++) {
             if (shop.catalog.get(i).prod.code == prod.code) {
@@ -40,9 +40,10 @@ class Methods {
         Shops.Shop requested = null;
 
         for (Shops.Shop shop : shops) {
-            if (shop.code == code)
+            if (shop.code == code) {
                 requested = shop;
-            break;
+                break;
+            }
         }
         return requested;
     }
@@ -79,18 +80,18 @@ class Methods {
 
         for (int i = 0; i < shop.catalog.size(); i++) {
             if (shop.catalog.get(i).price < money) {
-                int k = 1;
+                int k = 0;
                 while (shop.catalog.get(i).price * k <= money && k <= shop.catalog.get(i).amount) k++;
-                prods.add(new Shops.Products(new Shops.Product(shop.catalog.get(i).prod.code, shop.catalog.get(i).prod.name), shop.catalog.get(i).price, k));
+                prods.add(new Shops.Products(new Shops.Product(shop.catalog.get(i).prod.code, shop.catalog.get(i).prod.name), k - 1, shop.catalog.get(i).price));
             }
         }
         return prods;
     }
 
     static String buy(Shops.Shop shop, Shops.Product prod, int amount) {
-        String price = null;
-        if (findProds(shop, prod).amount <= amount) {
-            price = String.valueOf(findProds(shop, prod).price);
+        String price;
+        if (findProds(shop, prod).amount >= amount) {
+            price = String.valueOf(findProds(shop, prod).price * amount);
         } else {
             price = "No enough products in shop";
         }

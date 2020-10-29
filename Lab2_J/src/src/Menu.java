@@ -37,7 +37,7 @@ class Menu {
                 menu(shops, prod);
             case 3:
                 System.out.println("Enter product's code, shop's code, amount and a price.");
-                args = Methods.consoleSplitter(in, 3);
+                args = Methods.consoleSplitter(in, 4);
                 Methods.consignment(shops, Methods.getProd(prod, Integer.parseInt(args[0])), Methods.getShop(shops, Integer.parseInt(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
                 System.out.println("Consignment has successfully been done.");
                 menu(shops, prod);
@@ -53,7 +53,7 @@ class Menu {
                 forAvailable = Methods.whatAble(Integer.parseInt(args[0]), Methods.getShop(shops, Integer.parseInt(args[1])));
                 System.out.println("Here is what and in what amount you can by with money you have: ");
                 for (Shops.Products products : forAvailable) {
-                    System.out.println("You can buy " + products.amount + products.prod.name + ".");
+                    System.out.println("You can buy " + products.amount + " " + products.prod.name + ".");
                 }
                 menu(shops, prod);
             case 6:
@@ -75,5 +75,7 @@ class Menu {
                 menu(shops, prod);
 
         }
+
+        System.exit(0);
     }
 }
