@@ -2,7 +2,7 @@ package src;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Methods {
+class Methods {
 
     static String[] consoleSplitter(Scanner in, int count) {
         String[] splitted = new String[count];

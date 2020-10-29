@@ -75,6 +75,5 @@ class Menu {
                 menu(shops, prod);
 
         }
-        return;
     }
 }
