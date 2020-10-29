@@ -37,19 +37,19 @@ class Menu {
                 menu(shops, prod);
             case 3:
                 System.out.println("Enter product's code, shop's code, amount and a price.");
-                args = String.valueOf(in.next()).split("\\s+");
+                args = Methods.consoleSplitter(in, 3);
                 Methods.consignment(shops, Methods.getProd(prod, Integer.parseInt(args[0])), Methods.getShop(shops, Integer.parseInt(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
                 System.out.println("Consignment has successfully been done.");
                 menu(shops, prod);
             case 4:
                 System.out.println("Enter a code of a product you want to find: ");
-                args = String.valueOf(in.next()).split("\\s+");
+                args = Methods.consoleSplitter(in, 1);
                 currentShop = Methods.findCheapest(Methods.getProd(prod, Integer.parseInt(args[0])), shops);
                 System.out.println("The code of the shop is: " + currentShop.code + ". It's name is: " + currentShop.name + ". It's address is: " + currentShop.address + ".");
                 menu(shops, prod);
             case 5:
                 System.out.println("Enter how much money you have and a code of a shop: ");
-                args = String.valueOf(in.next()).split("\\s+");
+                args = Methods.consoleSplitter(in, 2);
                 forAvailable = Methods.whatAble(Integer.parseInt(args[0]), Methods.getShop(shops, Integer.parseInt(args[1])));
                 System.out.println("Here is what and in what amount you can by with money you have: ");
                 for (Shops.Products products : forAvailable) {
@@ -58,12 +58,12 @@ class Menu {
                 menu(shops, prod);
             case 6:
                 System.out.println("Enter a code of a shop, code of a product and amount you want to buy: ");
-                args = String.valueOf(in.next()).split("\\s+");
+                args = Methods.consoleSplitter(in, 3);
                 System.out.println(Methods.buy(Methods.getShop(shops, Integer.parseInt(args[0])), Methods.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
                 menu(shops, prod);
             case 7:
                 System.out.println("Enter code of a product and it's amount: ");
-                args = String.valueOf(in.next()).split("\\s+");
+                args = Methods.consoleSplitter(in, 2);
                 currentShop = Methods.findConsignment(shops, Methods.getProd(prod, Integer.parseInt(args[0])), Integer.parseInt(args[1]));
                 System.out.println("Code of a shop is: " + currentShop.code + ". Name of a shop is: " + currentShop.name + ". It's address is: " + currentShop.address + ".");
                 menu(shops, prod);
@@ -71,9 +71,10 @@ class Menu {
                 System.out.println("Bye.");
                 break;
             default:
-                System.out.println("Idi nahui");
+                System.out.println("Pick one of the mentioned options, please. ");
+                menu(shops, prod);
 
         }
-        System.exit(0);
+        return;
     }
 }
