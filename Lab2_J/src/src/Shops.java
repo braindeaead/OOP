@@ -10,13 +10,23 @@ public class Shops {
         String name;
         String address;
 
-        ArrayList<Products> catalog;
+        static ArrayList<Products> catalog;
 
         Shop(int code, String name, String address) {
             this.code = code;
             this.name = name;
             this.address = address;
             catalog = new ArrayList<>();
+        }
+
+        static Shops.Products findProds(Shops.Product prod) {
+            Shops.Products requested = null;
+            for (int i = 0; i < Shop.catalog.size(); i++) {
+                if (Shop.catalog.get(i).prod.code == prod.code) {
+                    requested = Shop.catalog.get(i);
+                }
+            }
+            return requested;
         }
     }
 

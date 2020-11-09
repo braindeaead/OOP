@@ -26,16 +26,6 @@ class Methods {
         shops.get(shops.indexOf(shop)).catalog.add(new Shops.Products(prod, amount, price));
     }
 
-    private static Shops.Products findProds(Shops.Shop shop, Shops.Product prod) {
-        Shops.Products requested = null;
-        for (int i = 0; i < shop.catalog.size(); i++) {
-            if (shop.catalog.get(i).prod.code == prod.code) {
-                requested = shop.catalog.get(i);
-            }
-        }
-        return requested;
-    }
-
     static Shops.Shop getShop(ArrayList<Shops.Shop> shops, int code) {
         Shops.Shop requested = null;
 
@@ -90,8 +80,8 @@ class Methods {
 
     static String buy(Shops.Shop shop, Shops.Product prod, int amount) {
         String price;
-        if (findProds(shop, prod).amount >= amount) {
-            price = String.valueOf(findProds(shop, prod).price * amount);
+        if (shop.findProds(prod).amount >= amount) {
+            price = String.valueOf(shop.findProds(prod).price * amount);
         } else {
             price = "No enough products in shop";
         }
@@ -103,10 +93,10 @@ class Methods {
         int price = Integer.MAX_VALUE;
 
         for (Shops.Shop shop : shops) {
-            if (shop.catalog.contains(findProds(shop, prod))) {
-                if (shop.catalog.get(shop.catalog.indexOf(findProds(shop, prod))).amount >= amount && shop.catalog.get(shop.catalog.indexOf(findProds(shop, prod))).price < price) {
+            if (shop.catalog.contains(shop.findProds(prod))) {
+                if (shop.catalog.get(shop.catalog.indexOf(shop.findProds(prod))).amount >= amount && shop.catalog.get(shop.catalog.indexOf(shop.findProds(prod))).price < price) {
                     requested = shop;
-                    price = shop.catalog.get(shop.catalog.indexOf(findProds(shop, prod))).price;
+                    price = shop.catalog.get(shop.catalog.indexOf(shop.findProds(prod))).price;
                 }
             }
         }
