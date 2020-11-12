@@ -5,21 +5,35 @@ import java.util.HashMap;
 class Race {
 
     private int distance;
-    private ArrayList<Simulator.Racers> participants;
+    private ArrayList<LandRacers> LandParticipants;
+    private ArrayList<AirRacers> AirParticipant;
 
-    public Race(int distance) {
+    Race(int distance) {
         this.distance = distance;
     }
 
-    void register(Simulator.Racers participant) {
-        participants.add(participant);
+    void LandRegister(LandRacers participant) {
+        LandParticipants.add(participant);
     }
 
-    int timeCounter(Simulator.Racers racer) {
-        return Integer.parseInt(null);
+    void AirRegister(AirRacers participant) {
+        AirParticipant.add(participant);
     }
 
-    Simulator.Racers startRace(int distance, ArrayList<Simulator.Racers> participants) {
+    int landTimeCounter(LandRacers racer) {
+        int time = distance / racer.speed;
+        for (int i = 0; i < (time / racer.restInterval); ++i) {
+            time += racer.restDuration(i);
+        }
+        return time;
+    }
+
+    int airTimeCounter(AirRacers racer) {
+        int time = (int) (racer.distanceReducer(distance) / racer.speed);
+        return time;
+    }
+
+    Simulator.Racers startRace() {
         Simulator.Racers winner = null;
         return winner;
     }
@@ -30,26 +44,14 @@ class LandRace extends Race {
     private int distance;
     private ArrayList<LandRacers> participants;
 
-    void register(LandRacers participant) {
-        participants.add(participant);
-    }
-
-    private int timeCounter(LandRacers racer) {
-       int time = distance / racer.speed;
-       for (int i = 0; i < (time / racer.restInterval); ++i) {
-           time += racer.restDuration(i);
-       }
-       return time;
-    }
-
     LandRacers startRace() {
         LandRacers winner = null;
         int bestTime = Integer.MAX_VALUE;
 
         for (LandRacers racer : participants) {
-           if (timeCounter(racer) < bestTime) {
+           if (landTimeCounter(racer) < bestTime) {
                winner = racer;
-               bestTime = timeCounter(racer);
+               bestTime = landTimeCounter(racer);
            }
         }
 
@@ -66,23 +68,14 @@ class AirRace extends Race {
     int distance;
     private ArrayList<AirRacers> participants;
 
-    void register(AirRacers participant) {
-        participants.add(participant);
-    }
-
-    private int timeCounter(AirRacers racer) {
-        int time = (int) (racer.distanceReducer(distance) / racer.speed);
-        return time;
-    }
-
     AirRacers startRace() {
         AirRacers winner = null;
         int bestTime = Integer.MAX_VALUE;
 
         for (AirRacers racer : participants) {
-            if (timeCounter(racer) < bestTime) {
+            if (airTimeCounter(racer) < bestTime) {
                 winner = racer;
-                bestTime = timeCounter(racer);
+                bestTime = airTimeCounter(racer);
             }
         }
 
