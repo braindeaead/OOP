@@ -1,6 +1,5 @@
 package src;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 class Race {
 
@@ -33,9 +32,29 @@ class Race {
         return time;
     }
 
-    Simulator.Racers startRace() {
-        Simulator.Racers winner = null;
-        return winner;
+    Simulator.Racers startRace(ArrayList<LandRacers> lParticipants, ArrayList<AirRacers> aParticipants) {
+        LandRacers lWinner = null;
+        AirRacers aWinner = null;
+        int lBestTime = Integer.MAX_VALUE, aBestTime = Integer.MAX_VALUE;
+
+        for (LandRacers racer : lParticipants) {
+            if (landTimeCounter(racer) < lBestTime) {
+                lWinner = racer;
+                lBestTime = landTimeCounter(racer);
+            }
+        }
+
+        for (AirRacers racer : aParticipants) {
+            if (airTimeCounter(racer) < aBestTime) {
+                aWinner = racer;
+                aBestTime = airTimeCounter(racer);
+            }
+        }
+
+        if (lBestTime < aBestTime)
+            return lWinner;
+        else
+            return aWinner;
     }
 }
 
