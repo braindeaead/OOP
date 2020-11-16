@@ -1,15 +1,9 @@
 package src;
 
-class LandRacers extends Simulator.Racers {
+abstract class LandRacers extends Simulator.Racers {
 
-    String name;
-    int speed;
     int restInterval;
     int rests;
-
-    double restDuration(int rests) {
-        return Double.parseDouble(null);
-    }
 
     LandRacers() {
         type = "Land";
@@ -18,7 +12,8 @@ class LandRacers extends Simulator.Racers {
 
 class BactrianCamel extends LandRacers {
 
-     public BactrianCamel() {
+
+    public BactrianCamel() {
          super();
          name = "Bactrian Camel";
          speed = 10;
@@ -26,13 +21,22 @@ class BactrianCamel extends LandRacers {
          rests = 0;
      }
 
-    @Override
-    double restDuration(int rests) {
-         if (rests == 1)
-             return 5;
-         else
-             return 8;
+    double distReduce(int rests) {
+        if (rests == 1)
+            return 5;
+        else
+            return 8;
     }
+
+    @Override
+    int timeCounter(int distance) {
+        int time = distance / speed;
+        for (int i = 0; i < (time / restInterval); ++i) {
+            time += distReduce(i);
+        }
+        return time;
+    }
+
 }
 
 class SpeedyCamel extends LandRacers {
@@ -45,14 +49,22 @@ class SpeedyCamel extends LandRacers {
         rests = 0;
     }
 
-    @Override
-    double restDuration(int rests) {
+    double distReduce(int rests) {
         if (rests == 1)
             return 5;
         else if (rests == 2)
             return 6.5;
         else
             return 8;
+    }
+
+    @Override
+    int timeCounter(int distance) {
+        int time = distance / speed;
+        for (int i = 0; i < (time / restInterval); ++i) {
+            time += distReduce(i);
+        }
+        return time;
     }
 }
 
@@ -66,9 +78,17 @@ class Centaur extends LandRacers {
         rests = 0;
     }
 
-    @Override
-    double restDuration(int rests) {
+    double distReduce(int rests) {
         return 2;
+    }
+
+    @Override
+    int timeCounter(int distance) {
+        int time = distance / speed;
+        for (int i = 0; i < (time / restInterval); ++i) {
+            time += distReduce(i);
+        }
+        return time;
     }
 }
 
@@ -82,12 +102,19 @@ class AllTerrainBoots extends LandRacers {
         rests = 0;
     }
 
-    @Override
-    double restDuration(int rests) {
+    double distReduce(int rests) {
         if (rests == 1)
             return 10;
         else
             return 5;
     }
 
+    @Override
+    int timeCounter(int distance) {
+        int time = distance / speed;
+        for (int i = 0; i < (time / restInterval); ++i) {
+            time += distReduce(i);
+        }
+        return time;
+    }
 }

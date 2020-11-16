@@ -1,13 +1,6 @@
 package src;
 
-class AirRacers extends Simulator.Racers {
-
-    String name;
-    int speed;
-
-    double distanceReducer(int distance) {
-        return Double.parseDouble(null);
-    }
+abstract class AirRacers extends Simulator.Racers {
 
     AirRacers() {
         type = "Air";
@@ -22,8 +15,7 @@ class MagicCarpet extends AirRacers {
         speed = 10;
     }
 
-    @Override
-    double distanceReducer(int distance) {
+    double distReduce(int distance) {
         if (distance < 1000)
             return distance;
         else if (distance < 5000)
@@ -33,6 +25,12 @@ class MagicCarpet extends AirRacers {
         else
             return distance * 0.95;
     }
+
+    int timeCounter(int distance) {
+        return (int) (distReduce(distance) / speed);
+    }
+
+
 }
 
 class Mortar extends AirRacers {
@@ -43,9 +41,12 @@ class Mortar extends AirRacers {
         speed = 8;
     }
 
-    @Override
-    double distanceReducer(int distance) {
+    double distReduce(int distance) {
         return distance * 0.94;
+    }
+
+    int timeCounter(int distance) {
+        return (int) (distReduce(distance) / speed);
     }
 }
 
@@ -57,8 +58,11 @@ class Broom extends AirRacers {
         speed = 20;
     }
 
-    @Override
-    double distanceReducer(int distance) {
+    double distReduce(int distance) {
         return distance * (1 - (0.1 * distance / 1000));
+    }
+
+    int timeCounter(int distance) {
+        return (int) (distReduce(distance) / speed);
     }
 }

@@ -2,8 +2,15 @@ package src;
 
 public class Simulator {
 
-    static class Racers {
+    static abstract class Racers {
+
+        String name;
         String type;
+        int speed;
+
+        abstract double distReduce(int param);
+
+        abstract int timeCounter(int distance);
 
         Racers() {
         }

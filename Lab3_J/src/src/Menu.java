@@ -1,7 +1,7 @@
 package src;
 import java.util.Scanner;
 
-public class Menu {
+class Menu {
 
     private static void raceCreationProtocol(Scanner in, Race race) {
         System.out.println("Race for what vehicle type u want to create? ");
@@ -27,7 +27,7 @@ public class Menu {
             case 3:
                 System.out.println("Enter a distance of a race: ");
                 action = in.nextInt();
-                race = new Race(action);
+                race = new MixedRace(action);
                 System.out.println("Mixed race was successfully created. ");
                 menu(race);
             default:
@@ -61,19 +61,19 @@ public class Menu {
 
                     switch (action) {
                         case 1:
-                            race.landRegister(new BactrianCamel());
+                            race.register(new BactrianCamel());
                             System.out.println("Bactrian Camel was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         case 2:
-                            race.landRegister(new SpeedyCamel());
+                            race.register(new SpeedyCamel());
                             System.out.println("Speedy Camel was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         case 3:
-                            race.landRegister(new Centaur());
+                            race.register(new Centaur());
                             System.out.println("Centaur was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         case 4:
-                            race.landRegister(new AllTerrainBoots());
+                            race.register(new AllTerrainBoots());
                             System.out.println("All-Terrain Boots were successfully registered. ");
                             raceRegisterProtocol(in, race);
                         default:
@@ -96,15 +96,15 @@ public class Menu {
 
                     switch (action) {
                         case 1:
-                            race.airRegister(new MagicCarpet());
+                            race.register(new MagicCarpet());
                             System.out.println("Magic Carpet was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         case 2:
-                            race.airRegister(new Mortar());
+                            race.register(new Mortar());
                             System.out.println("Mortar was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         case 3:
-                            race.airRegister(new Broom());
+                            race.register(new Broom());
                             System.out.println("Broom was successfully registered. ");
                             raceRegisterProtocol(in, race);
                         default:
@@ -153,13 +153,8 @@ public class Menu {
                     menu(race);
                 }
                 else {
-                    Simulator.Racers winner = race.startRace(race.landParticipants, race.airParticipants);
-                    if (winner instanceof LandRacers) {
-                        System.out.println("The winner is: " + ((LandRacers) winner).name + ".");
-                    }
-                    else {
-                        System.out.println("The winner is: " + ((AirRacers) winner).name + ".");
-                    }
+                    Simulator.Racers winner = race.startRace();
+                    System.out.println("The winner is: " + winner.name + ".");
                     break;
                 }
             default:
