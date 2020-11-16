@@ -5,6 +5,7 @@ abstract class AirRacers extends Simulator.Racers {
     AirRacers() {
         type = "Air";
     }
+    // move timCounter() up
 }
 
 class MagicCarpet extends AirRacers {
