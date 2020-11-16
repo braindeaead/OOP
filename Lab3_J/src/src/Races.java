@@ -4,19 +4,21 @@ import java.util.ArrayList;
 class Race {
 
     private int distance;
-    private ArrayList<LandRacers> LandParticipants;
-    private ArrayList<AirRacers> AirParticipant;
+    ArrayList<LandRacers> landParticipants;
+    ArrayList<AirRacers> airParticipants;
 
     Race(int distance) {
         this.distance = distance;
+        landParticipants = new ArrayList<>();
+        airParticipants = new ArrayList<>();
     }
 
-    void LandRegister(LandRacers participant) {
-        LandParticipants.add(participant);
+    void landRegister(LandRacers participant) {
+        landParticipants.add(participant);
     }
 
-    void AirRegister(AirRacers participant) {
-        AirParticipant.add(participant);
+    void airRegister(AirRacers participant) {
+        airParticipants.add(participant);
     }
 
     int landTimeCounter(LandRacers racer) {
@@ -60,49 +62,20 @@ class Race {
 
 class LandRace extends Race {
 
-    private int distance;
-    private ArrayList<LandRacers> participants;
+    int distance;
 
-    LandRacers startRace() {
-        LandRacers winner = null;
-        int bestTime = Integer.MAX_VALUE;
-
-        for (LandRacers racer : participants) {
-           if (landTimeCounter(racer) < bestTime) {
-               winner = racer;
-               bestTime = landTimeCounter(racer);
-           }
-        }
-
-        return winner;
-    }
-
-    public LandRace(int distance) {
+    LandRace(int distance) {
         super(distance);
+        this.distance = distance;
     }
 }
 
 class AirRace extends Race {
 
     int distance;
-    private ArrayList<AirRacers> participants;
 
-    AirRacers startRace() {
-        AirRacers winner = null;
-        int bestTime = Integer.MAX_VALUE;
-
-        for (AirRacers racer : participants) {
-            if (airTimeCounter(racer) < bestTime) {
-                winner = racer;
-                bestTime = airTimeCounter(racer);
-            }
-        }
-
-        return winner;
-
-    }
-
-    public AirRace(int distance) {
+    AirRace(int distance) {
         super(distance);
+        this.distance = distance;
     }
 }
