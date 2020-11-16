@@ -1,6 +1,4 @@
 package src;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,13 +24,13 @@ class Menu {
             case 1:
                 System.out.println("Enter a code, name and address of a shop: ");
                 args = Methods.consoleSplitter(in, 3);
-                Methods.createShop(Integer.parseInt(args[0]), args[1], args[2], shops);
+                Shops.Shop.createShop(Integer.parseInt(args[0]), args[1], args[2], shops);
                 System.out.println("Shop " + args[1] + " was successfully created.");
                 menu(shops, prod);
             case 2:
                 System.out.println("Enter a code and name: ");
                 args = Methods.consoleSplitter(in, 2);
-                Methods.createProd(Integer.parseInt(args[0]), args[1], prod);
+                Shops.Product.createProd(Integer.parseInt(args[0]), args[1], prod);
                 System.out.println("Product " + args[1] + " was successfully created.");
                 menu(shops, prod);
             case 3:
@@ -50,7 +48,7 @@ class Menu {
             case 5:
                 System.out.println("Enter how much money you have and a code of a shop: ");
                 args = Methods.consoleSplitter(in, 2);
-                forAvailable = Methods.whatAble(Integer.parseInt(args[0]), Methods.getShop(shops, Integer.parseInt(args[1])));
+                forAvailable = Methods.getShop(shops, Integer.parseInt(args[1])).whatAble(Integer.parseInt(args[0]));
                 System.out.println("Here is what and in what amount you can by with money you have: ");
                 for (Shops.Products products : forAvailable) {
                     System.out.println("You can buy " + products.amount + " " + products.prod.name + ".");
@@ -59,7 +57,7 @@ class Menu {
             case 6:
                 System.out.println("Enter a code of a shop, code of a product and amount you want to buy: ");
                 args = Methods.consoleSplitter(in, 3);
-                System.out.println(Methods.buy(Methods.getShop(shops, Integer.parseInt(args[0])), Methods.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
+                System.out.println(Methods.getShop(shops, Integer.parseInt(args[0])).buy(Methods.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
                 menu(shops, prod);
             case 7:
                 System.out.println("Enter code of a product and it's amount: ");
