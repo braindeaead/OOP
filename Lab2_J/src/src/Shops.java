@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Shops {
 
-    static class Shop {
+    static class Shop { //remove static
         final int code;
         String name;
         String address;
@@ -33,7 +33,7 @@ public class Shops {
             return requested;
         }
 
-        static ArrayList<Shops.Products> whatAble(int money) {
+        ArrayList<Shops.Products> whatAble(int money) {
             ArrayList<Shops.Products> prods = new ArrayList<>();
 
             for (int i = 0; i < catalog.size(); i++) {
@@ -46,7 +46,7 @@ public class Shops {
             return prods;
         }
 
-        static String buy(Shops.Product prod, int amount) {
+        static String buy(Shops.Product prod, int amount) { // string is not the best solution
             String price;
             if (findProds(prod).amount >= amount) {
                 price = String.valueOf(findProds(prod).price * amount);

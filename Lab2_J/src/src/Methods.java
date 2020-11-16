@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 class Methods {
-
+    // make as a manager
     static String[] consoleSplitter(Scanner in, int count) {
         String[] splitted = new String[count];
 
@@ -42,7 +42,7 @@ class Methods {
         return requested;
     }
 
-    static Shops.Shop findCheapest(Shops.Product prod, ArrayList<Shops.Shop> shops) {
+    static Shops.Shop findCheapest(Shops.Product prod, ArrayList<Shops.Shop> shops) { // same as consignment
         Shops.Shop coolest = null;
         int price = Integer.MAX_VALUE;
 
@@ -57,7 +57,7 @@ class Methods {
         return coolest;
     }
 
-    static Shops.Shop findConsignment(ArrayList<Shops.Shop> shops, Shops.Product prod, int amount) {
+    static Shops.Shop findConsignment(ArrayList<Shops.Shop> shops, Shops.Product prod, int amount) { //remake as a part of a Shop method
         Shops.Shop requested = null;
         int price = Integer.MAX_VALUE;
 
