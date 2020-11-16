@@ -16,14 +16,27 @@ class Methods {
         return scan;
     }
 
-    private static int categNumber(String categ, ArrayList<IniParser.Category> categories) throws Exception {
+    private static IniParser.Category categGet(String categ, ArrayList<IniParser.Category> categories) throws Exception {
         int numberCateg = -1;
         for (int i = 0; i < categories.size(); i++) {
             if (categories.get(i).name.equals(categ)) {
                 numberCateg = i;
             }
         }
-        return numberCateg;
+        return categories.get(categories.indexOf(numberCateg));
+    }
+
+    private static int numberType (IniParser.Category category, String type) {
+        int numberType = -1;
+        for (int i = 0; i < category.pairs.size(); i++) {
+            String current = String.valueOf(category.pairs.get(i));
+            if (current.contains(type)) { // exception if it doesn't contain
+                numberType = i;
+                break;
+            }
+        }
+
+        return numberType;
     }
 
     private static String replaceSev(char[] symbols, String line) {
@@ -52,58 +65,31 @@ class Methods {
     }
 
     static String getString(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
-        int numberType = -1;
-        for (int i = 0; i < categories.get(categNumber(categ, categories)).pairs.size(); i++) {
-            String current = String.valueOf(categories.get(categNumber(categ, categories)).pairs.get(i));
-            if (current.contains(type)) {
-                numberType = i;
-                break;
-            }
-        }
-        return String.valueOf(categories.get(categNumber(categ, categories)).pairs.get(numberType).get(type));
+        IniParser.Category currentCateg = categGet(categ, categories);
+
+        return String.valueOf(currentCateg.pairs.get(numberType(currentCateg, type)).get(type));
     }
 
     static Double getDouble(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
-        int numberCateg = -1;
-        int size = categories.size();
-        for (int k = 0; k < size; k++)
-            if (categories.get(k).name.equals(categ))
-                numberCateg = k;
+        IniParser.Category currentCategory = categGet(categ, categories);
 
-        if (numberCateg == -1) throw new Exception("Error: such category does not exist");
-        int numberType = -1;
-        for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
-            String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
-            if (current.contains(type)) {
-                numberType = i;
-                break;
-            }
-        }
-        try { Double.parseDouble(categories.get(numberCateg).pairs.get(numberType).get(type)); }
+        try { Double.parseDouble(currentCategory.pairs.get(numberType(currentCategory, type)).get(type)); }
         catch (Exception e) {
             System.out.println("Error: wrong type.");
         }
 
-        return Double.parseDouble(categories.get(numberCateg).pairs.get(numberType).get(type));
+        return Double.parseDouble(currentCategory.pairs.get(numberType(currentCategory, type)).get(type));
     }
 
     static Integer getInteger(ArrayList<IniParser.Category> categories, String categ, String type) throws Exception {
-        int numberCateg = -1;
-        int size = categories.size();
-        for (int k = 0; k < size; k++)
-            if (categories.get(k).name.equals(categ))
-                numberCateg = k;
+        IniParser.Category currentCategory = categGet(categ, categories);
 
-        if (numberCateg == -1) throw new Exception("Error: such category does not exist");
-        int numberType = -1;
-        for (int i = 0; i < categories.get(numberCateg).pairs.size(); i++) {
-            String current = String.valueOf(categories.get(numberCateg).pairs.get(i));
-            if (current.contains(type)) {
-                numberType = i;
-                break;
-            }
+        try { Integer.parseInt(currentCategory.pairs.get(numberType(currentCategory, type)).get(type)); }
+        catch (Exception e) {
+            System.out.println("Error: wrong type.");
         }
-            return Integer.parseInt(String.valueOf(categories.get(numberCateg).pairs.get(numberType).get(type)));
+
+        return Integer.parseInt(String.valueOf(currentCategory.pairs.get(numberType(currentCategory, type)).get(type)));
     }
 
     static ArrayList<IniParser.Category> parser(Scanner file) {
