@@ -42,7 +42,7 @@ class Menu {
             case 4:
                 System.out.println("Enter a code of a product you want to find: ");
                 args = Methods.consoleSplitter(in, 1);
-                currentShop = Manager.findCheapest(Manager.getProd(prod, Integer.parseInt(args[0])), shops);
+                currentShop = Manager.findMostProfitable(Manager.getProd(prod, Integer.parseInt(args[0])), shops);
                 System.out.println("The code of the shop is: " + currentShop.code + ". It's name is: " + currentShop.name + ". It's address is: " + currentShop.address + ".");
                 menu(shops, prod);
             case 5:
@@ -57,7 +57,12 @@ class Menu {
             case 6:
                 System.out.println("Enter a code of a shop, code of a product and amount you want to buy: ");
                 args = Methods.consoleSplitter(in, 3);
-                System.out.println(Manager.getShop(shops, Integer.parseInt(args[0])).buy(Manager.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
+                int price = Manager.getShop(shops, Integer.parseInt(args[0])).buy(Manager.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2]));
+                if (price > -1) {
+                    System.out.println(price);
+                } else {
+                    System.out.println("No enough products in shop. ");
+                }
                 menu(shops, prod);
             case 7:
                 System.out.println("Enter code of a product and it's amount: ");

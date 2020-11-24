@@ -27,17 +27,14 @@ class Manager {
         return requested;
     }
 
-    static Shops.Shop findCheapest(Shops.Product prod, ArrayList<Shops.Shop> shops) { // same as consignment
+    static Shops.Shop findMostProfitable(Shops.Product prod, ArrayList<Shops.Shop> shops) {
         Shops.Shop coolest = null;
         int price = Integer.MAX_VALUE;
 
         for (Shops.Shop shop : shops) {
-            for (int k = 0; k < shop.catalog.size(); k++) {
-                if (shop.catalog.get(k).price < price) {
-                    price = shop.catalog.get(k).price;
-                    coolest = shop;
-                }
-            }
+            Methods.Result res = shop.findCheapestProduct(shops, prod, price);
+            price = res.price;
+            coolest = res.shop;
         }
         return coolest;
     }
@@ -47,7 +44,7 @@ class Manager {
         int price = Integer.MAX_VALUE;
 
         for (Shops.Shop shop : shops) {
-            Methods.Result res = shop.cheapestConsignment(shops, prod, amount, requested, price);
+            Methods.Result res = shop.cheapestConsignment(shops, prod, amount, price);
             requested = res.shop;
             price = res.price;
         }

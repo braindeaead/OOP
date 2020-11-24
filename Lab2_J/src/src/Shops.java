@@ -23,9 +23,9 @@ class Shops {
 
         Goods findProds(Shops.Product prod) {
             Goods requested = null;
-            for (int i = 0; i < catalog.size(); i++) {
-                if (catalog.get(i).prod.code == prod.code) {
-                    requested = catalog.get(i);
+            for (Goods goods : catalog) {
+                if (goods.prod.code == prod.code) {
+                    requested = goods;
                 }
             }
             return requested;
@@ -38,34 +38,48 @@ class Shops {
         ArrayList<Goods> whatAble(int money) {
             ArrayList<Goods> prods = new ArrayList<>();
 
-            for (int i = 0; i < catalog.size(); i++) {
-                if (catalog.get(i).price < money) {
+            for (Goods goods : catalog) {
+                if (goods.price < money) {
                     int k = 0;
-                    while (catalog.get(i).price * k <= money && k <= catalog.get(i).amount) k++;
-                    prods.add(new Goods(new Shops.Product(catalog.get(i).prod.code, catalog.get(i).prod.name), k - 1, catalog.get(i).price));
+                    while (goods.price * k <= money && k <= goods.amount) k++;
+                    prods.add(new Goods(new Product(goods.prod.code, goods.prod.name), k - 1, goods.price));
                 }
             }
             return prods;
         }
 
-        String buy(Shops.Product prod, int amount) { // string is not the best solution
-            String price;
+        int buy(Shops.Product prod, int amount) {
+            int price;
             if (findProds(prod).amount >= amount) {
-                price = String.valueOf(findProds(prod).price * amount);
+                price = findProds(prod).price * amount;
             } else {
-                price = "No enough products in shop";
+                price = -1;
             }
             return price;
         }
 
-        Methods.Result cheapestConsignment(ArrayList<Shop> shops, Product prod, int amount, Shop requested, int price) {
+        Methods.Result cheapestConsignment(ArrayList<Shop> shops, Product prod, int amount, int price) {
+            Shop requested = null;
             if (catalog.contains(findProds(prod))) {
                 if (catalog.get(catalog.indexOf(findProds(prod))).amount >= amount && catalog.get(catalog.indexOf(findProds(prod))).price < price) {
                     requested = Manager.getShop(shops, this.code);
                     price = catalog.get(catalog.indexOf(findProds(prod))).price;
                 }
             }
+
             return new Methods.Result(requested, price);
+        }
+
+        Methods.Result findCheapestProduct(ArrayList<Shop> shops, Product prod, int price) {
+            Shop coolest = null;
+            for (Shops.Goods good : catalog) {
+                if (good.price < price && good.prod == prod) {
+                    price = good.price;
+                    coolest = Manager.getShop(shops, this.code);
+                }
+            }
+
+            return new Methods.Result(coolest, price);
         }
     }
 
