@@ -18,7 +18,7 @@ class Menu {
         int read = in.nextInt();
         String[] args;
         Shops.Shop currentShop;
-        ArrayList<Shops.Products> forAvailable;
+        ArrayList<Shops.Goods> forAvailable;
 
         switch (read) {
             case 1:
@@ -36,33 +36,33 @@ class Menu {
             case 3:
                 System.out.println("Enter product's code, shop's code, amount and a price.");
                 args = Methods.consoleSplitter(in, 4);
-                Methods.consignment(shops, Methods.getProd(prod, Integer.parseInt(args[0])), Methods.getShop(shops, Integer.parseInt(args[1])), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+                Manager.getShop(shops, Integer.parseInt(args[1])).consignment(Manager.getProd(prod, Integer.parseInt(args[0])), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
                 System.out.println("Consignment has successfully been done.");
                 menu(shops, prod);
             case 4:
                 System.out.println("Enter a code of a product you want to find: ");
                 args = Methods.consoleSplitter(in, 1);
-                currentShop = Methods.findCheapest(Methods.getProd(prod, Integer.parseInt(args[0])), shops);
+                currentShop = Manager.findCheapest(Manager.getProd(prod, Integer.parseInt(args[0])), shops);
                 System.out.println("The code of the shop is: " + currentShop.code + ". It's name is: " + currentShop.name + ". It's address is: " + currentShop.address + ".");
                 menu(shops, prod);
             case 5:
                 System.out.println("Enter how much money you have and a code of a shop: ");
                 args = Methods.consoleSplitter(in, 2);
-                forAvailable = Methods.getShop(shops, Integer.parseInt(args[1])).whatAble(Integer.parseInt(args[0]));
+                forAvailable = Manager.getShop(shops, Integer.parseInt(args[1])).whatAble(Integer.parseInt(args[0]));
                 System.out.println("Here is what and in what amount you can by with money you have: ");
-                for (Shops.Products products : forAvailable) {
-                    System.out.println("You can buy " + products.amount + " " + products.prod.name + ".");
+                for (Shops.Goods goods : forAvailable) {
+                    System.out.println("You can buy " + goods.amount + " " + goods.prod.name + ".");
                 }
                 menu(shops, prod);
             case 6:
                 System.out.println("Enter a code of a shop, code of a product and amount you want to buy: ");
                 args = Methods.consoleSplitter(in, 3);
-                System.out.println(Methods.getShop(shops, Integer.parseInt(args[0])).buy(Methods.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
+                System.out.println(Manager.getShop(shops, Integer.parseInt(args[0])).buy(Manager.getProd(prod, Integer.parseInt(args[1])), Integer.parseInt(args[2])));
                 menu(shops, prod);
             case 7:
                 System.out.println("Enter code of a product and it's amount: ");
                 args = Methods.consoleSplitter(in, 2);
-                currentShop = Methods.findConsignment(shops, Methods.getProd(prod, Integer.parseInt(args[0])), Integer.parseInt(args[1]));
+                currentShop = Manager.findConsignment(shops, Manager.getProd(prod, Integer.parseInt(args[0])), Integer.parseInt(args[1]));
                 System.out.println("Code of a shop is: " + currentShop.code + ". Name of a shop is: " + currentShop.name + ". It's address is: " + currentShop.address + ".");
                 menu(shops, prod);
             case 8:
